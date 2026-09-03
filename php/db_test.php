@@ -2,29 +2,45 @@
 
 header("Content-Type: application/json");
 
-$drivers = PDO::getAvailableDrivers();
-
-$requiredVariables = [
-    "MYSQLHOST",
-    "MYSQLPORT",
-    "MYSQLDATABASE",
-    "MYSQLUSER",
-    "MYSQLPASSWORD"
+$result = [
+    "php_version" => PHP_VERSION,
+    "pdo_mysql_driver" => in_array("mysql", PDO::getAvailableDrivers()),
+    "mysql_connection" => false,
+    "error" => null
 ];
 
-$variables = [];
+try {
 
-foreach ($requiredVariables as $variable) {
-    $value = getenv($variable);
+    $host = getenv("MYSQLHOST") ?: "";
+    $port = getenv("MYSQLPORT") ?: "3306";
+    $database = getenv("MYSQLDATABASE") ?: "";
+    $username = getenv("MYSQLUSER") ?: "";
+    $password = getenv("MYSQLPASSWORD") ?: "";
 
-    $variables[$variable] = [
-        "available" => ($value !== false && $value !== "")
-    ];
+    $dsn = "mysql:host=" . $host .
+           ";port=" . $port .
+           ";dbname=" . $database .
+           ";charset=utf8mb4";
+
+    $pdo = new PDO(
+        $dsn,
+        $username,
+        $password
+    );
+
+    $pdo->setAttribute(
+        PDO::ATTR_ERRMODE,
+        PDO::ERRMODE_EXCEPTION
+    );
+
+    $result["mysql_connection"] = true;
+
+} catch (Throwable $e) {
+
+    $result["error"] = $e->getMessage();
 }
 
-echo json_encode([
-    "php_version" => PHP_VERSION,
-    "pdo_mysql_driver" => in_array("mysql", $drivers),
-    "available_pdo_drivers" => $drivers,
-    "mysql_variables" => $variables
-], JSON_PRETTY_PRINT);
+echo json_encode(
+    $result,
+    JSON_PRETTY_PRINT
+);
