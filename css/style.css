@@ -1,4 +1,3 @@
-
 /* =========================================================
    GUVI USER PORTAL - MODERN UI
    ========================================================= */
@@ -48,10 +47,18 @@ body {
     overflow: hidden;
 }
 
-/*
-   IMPORTANT:
-   Profile page is scrollable.
-*/
+/* Form pages are scrollable */
+.form-page {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+/* Profile page is scrollable */
 .profile-page {
     position: relative;
     min-height: 100vh;
@@ -846,6 +853,11 @@ input[type="date"].modern-input {
 
 @media (max-width: 768px) {
 
+    .form-page {
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+
     .home-card,
     .form-card,
     .profile-card {
@@ -908,6 +920,11 @@ input[type="date"].modern-input {
 
 @media (max-width: 576px) {
 
+    .form-page {
+        padding-top: 10px;
+        padding-bottom: 35px;
+    }
+
     .home-card,
     .form-card,
     .profile-card {
@@ -967,4 +984,38 @@ input[type="date"].modern-input {
         margin-left: 0;
     }
 }
+/* Registration Page Scroll Fix */
+body.form-page {
+    min-height: 100vh;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
 
+.form-page {
+    min-height: 100vh;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+.form-page .container {
+    min-height: 100vh;
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+@media (max-width: 768px) {
+    .form-page .container {
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-page .container {
+        padding-top: 10px;
+        padding-bottom: 35px;
+    }
+}
