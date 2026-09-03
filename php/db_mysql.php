@@ -1,35 +1,37 @@
-
 <?php
-
-require_once __DIR__ . "/config.php";
 
 function getMySQLConnection()
 {
     try {
 
-        $dsn = "mysql:host=" . DB_HOST .
-               ";dbname=" . DB_NAME .
+        // Railway MySQL variables
+        $host = getenv("MYSQLHOST") ?: "127.0.0.1";
+        $port = getenv("MYSQLPORT") ?: "3306";
+        $database = getenv("MYSQLDATABASE") ?: "guvi_portal";
+        $username = getenv("MYSQLUSER") ?: "root";
+        $password = getenv("MYSQLPASSWORD") ?: "root";
+
+        $dsn = "mysql:host=" . $host .
+               ";port=" . $port .
+               ";dbname=" . $database .
                ";charset=utf8mb4";
 
         $pdo = new PDO(
             $dsn,
-            DB_USER,
-            DB_PASSWORD
+            $username,
+            $password
         );
 
-        // Enable PDO exceptions
         $pdo->setAttribute(
             PDO::ATTR_ERRMODE,
             PDO::ERRMODE_EXCEPTION
         );
 
-        // Return database results as associative arrays
         $pdo->setAttribute(
             PDO::ATTR_DEFAULT_FETCH_MODE,
             PDO::FETCH_ASSOC
         );
 
-        // Use native MySQL prepared statements
         $pdo->setAttribute(
             PDO::ATTR_EMULATE_PREPARES,
             false
@@ -42,4 +44,3 @@ function getMySQLConnection()
         return null;
     }
 }
-
