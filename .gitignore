@@ -1,0 +1,14 @@
+# Local configuration
+php/config.php
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.log
+*.tmp
